@@ -98,7 +98,12 @@ function graphRK4(x0,y0){
 	ctx.stroke();
 	ctx.closePath();
 }
-
+function sample(){
+for(var i=0;i<20;i++){
+	graph(i*2,1);
+	graphRK4(i*2,1);
+}
+}
 //sin(y)/sin(x)
 </script>
 <style>
