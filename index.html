@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Numerical Methods for Differential Equations</title>
+<script type="text/javascript">
+var can,ctx;
+var cw,ch;
+var h,steps;
+var xn,yn;
+var scale=10;
+
+var mx,my;
+var rk4=true;
+
+function sin(a){return Math.sin(a)}
+function cos(a){return Math.cos(a)}
+function tan(a){return Math.tan(a)}
+function ln(a){return Math.log(a)}
+function pow(a,b){return Math.pow(a,b)}
+function sqrt(a){return Math.sqrt(a)}
+function asin(a){return Math.asin(a)}
+function acos(a){return Math.acos(a)}
+function atan(a){return Math.atan(a)}
+function abs(a){return Math.abs(a)}
+var pi=Math.PI;
+var e=Math.E;
+
+function dydx(x,y){
+	return(eval(document.getElementById("input1").value))
+}
+function init(){
+	can=document.getElementById("can0");
+	ctx=can.getContext("2d");
+	cw=can.width;
+	ch=can.height;
+	update();
+	can.addEventListener("mousemove",mouseUpdate);
+}	
+function mouseUpdate(e){
+mx=(e.offsetX-cw/2)/scale;
+my=(ch/2-e.offsetY)/scale;	
+document.getElementById("xdisplay").innerHTML=(mx.toFixed(2));
+document.getElementById("ydisplay").innerHTML=(my.toFixed(2));
+//clearCanvas();
+if(document.getElementById("eulercheck").checked){
+graph(mx,my)}
+if(document.getElementById("rk4check").checked){
+graphRK4(mx,my)}
+}
+function mouseClear(){
+	document.getElementById("xdisplay").innerHTML="";
+	document.getElementById("ydisplay").innerHTML="";
+}
+function update(){
+	h=eval(document.getElementById("h").value);
+	steps=eval(document.getElementById("steps").value);
+	scale=eval(document.getElementById("scale").value)
+}
+function clearCanvas(){
+	ctx.clearRect(0,0,cw,ch)}
+function graph(x0,y0){
+	ctx.strokeStyle="rgb(255,0,0)";
+	update();
+	xn=x0;
+	yn=y0;	
+	ctx.beginPath()
+	ctx.moveTo(cw/2+scale*(xn),ch/2-scale*(yn));
+	for(i=1;i<=steps;i++){
+		xn=x0+i*h;
+		yn+=h*dydx(xn,yn);
+		ctx.lineTo(cw/2+scale*(xn),ch/2-scale*(yn));
+		if(ch/(2*scale)<abs(yn)){
+			break;
+		}
+	}
+	ctx.stroke();
+	ctx.closePath();
+}
+function graphRK4(x0,y0){
+	ctx.strokeStyle="rgb(0,192,0)";
+	update();
+	xn=x0;
+	yn=y0;
+	var ka,kb,kc;
+	ctx.beginPath()
+	ctx.moveTo(cw/2+scale*(xn),ch/2-scale*(yn));
+	for(i=1;i<=steps;i++){	
+		xn=x0+i*h;
+		ka=dydx(xn,yn);
+		kb=dydx(xn+h/2,yn+h*ka/2);
+		kc=dydx(xn+h/2,yn+h*kb/2);
+		yn+=h*(ka+2*kb+2*kc+dydx(xn+h,yn+h*kc))/6;
+		ctx.lineTo(cw/2+scale*(xn),ch/2-scale*(yn));	
+		if(ch/(2*scale)<abs(yn)){
+			break;
+		}
+	}
+	ctx.stroke();
+	ctx.closePath();
+}
+
+//sin(y)/sin(x)
+</script>
+<style>
+canvas{
+position:relative;
+background-color:white;
+}
+table{
+color:#eee;
+background-color:#25a;
+border-radius:6px;
+font-family:menlo,sans-serif;
+font-size:11pt;
+}
+td{
+white-space: nowrap;
+}
+.coord{
+margin-left:2em;
+padding:4px;
+background-color:black;
+color:#0ff;
+border-radius:6px;
+}
+input{
+font-size:10pt;
+}
+</style>
+	<title></title>
+</head>
+<body onload="init()" id="body" bgcolor="#eee">
+<table><tr>
+<td id="maininput" colspan="3">dy/dx=<input type="text" size="40" id="input1" value="ln(abs(y))"></input></td>
+<td style="color:#f00">Euler</td><td><input id="eulercheck" type="checkbox"></input></td>
+<td width="150px" class="coord">Mouse X: <span id="xdisplay"></span></td>
+</tr><tr>
+<td><span>h: <input type="text" size="8" id="h" value="0.05"></input></span></td>
+<td><span>steps: <input type="text" size="8" id="steps" value="1000"></input></span></td>
+<td><span>scale: <input type="text" size="8" id="scale" value="10"></input></span></td>
+<td style="color:#0c0">Runge-Kutta</td><td><input id="rk4check" type="checkbox" checked="true"></input></td>
+<td width="150px" class="coord">Mouse Y: <span id="ydisplay"></span></td>
+</tr>
+</table>
+<canvas height="600" width="1000" id="can0" onclick="clearCanvas()" onmouseout="mouseClear()"></canvas><br>
+</body></html>
