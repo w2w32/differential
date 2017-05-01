@@ -69,7 +69,7 @@ function graph(x0,y0){
 		xn=x0+i*h;
 		yn+=h*dydx(xn,yn);
 		ctx.lineTo(cw/2+scale*(xn),ch/2-scale*(yn));
-		if(ch/(2*scale)<abs(yn)){
+		if(ch*100/(2*scale)<abs(yn)){
 			break;
 		}
 	}
@@ -91,7 +91,7 @@ function graphRK4(x0,y0){
 		kc=dydx(xn+h/2,yn+h*kb/2);
 		yn+=h*(ka+2*kb+2*kc+dydx(xn+h,yn+h*kc))/6;
 		ctx.lineTo(cw/2+scale*(xn),ch/2-scale*(yn));	
-		if(ch/(2*scale)<abs(yn)){
+		if(ch*100/(2*scale)<abs(yn)){
 			break;
 		}
 	}
