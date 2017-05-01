@@ -37,15 +37,15 @@ function init(){
 	can.addEventListener("mousemove",mouseUpdate);
 }	
 function mouseUpdate(e){
-mx=(e.offsetX-cw/2)/scale;
-my=(ch/2-e.offsetY)/scale;	
-document.getElementById("xdisplay").innerHTML=(mx.toFixed(2));
-document.getElementById("ydisplay").innerHTML=(my.toFixed(2));
-//clearCanvas();
-if(document.getElementById("eulercheck").checked){
-graph(mx,my)}
-if(document.getElementById("rk4check").checked){
-graphRK4(mx,my)}
+	mx=(e.offsetX-cw/2)/scale;
+	my=(ch/2-e.offsetY)/scale;	
+	document.getElementById("xdisplay").innerHTML=(mx.toFixed(2));
+	document.getElementById("ydisplay").innerHTML=(my.toFixed(2));
+	//clearCanvas();
+	if(document.getElementById("eulercheck").checked){
+	graph(mx,my)}
+	if(document.getElementById("rk4check").checked){
+	graphRK4(mx,my)}
 }
 function mouseClear(){
 	document.getElementById("xdisplay").innerHTML="";
@@ -99,9 +99,9 @@ function graphRK4(x0,y0){
 	ctx.closePath();
 }
 function sample(){
-for(var i=0;i<20;i++){
-	graph(i*2,1);
-	graphRK4(i*2,1);
+for(var i=-100;i<100;i++){
+	graph(-4,i);
+	graphRK4(-4,i);
 }
 }
 //sin(y)/sin(x)
@@ -136,8 +136,8 @@ font-size:10pt;
 </head>
 <body onload="init()" id="body" bgcolor="#eee">
 <table><tr>
-<td id="maininput" colspan="3">dy/dx=<input type="text" size="40" id="input1" value="ln(abs(y))"></input></td>
-<td style="color:#f00">Euler</td><td><input id="eulercheck" type="checkbox"></input></td>
+<td id="maininput" colspan="3">dy/dx=<input type="text" size="40" id="input1" value="y*sin(x)"></input></td>
+<td style="color:#f00">Euler</td><td><input id="eulercheck" type="checkbox" checked="true"></input></td>
 <td width="150px" class="coord">Mouse X: <span id="xdisplay"></span></td>
 </tr><tr>
 <td><span>h: <input type="text" size="8" id="h" value="0.05"></input></span></td>
