@@ -11,7 +11,6 @@ var scale=10;
 
 var mx,my;
 var rk4=true;
-var clear=true;
 
 function sin(a){return Math.sin(a)}
 function cos(a){return Math.cos(a)}
@@ -43,7 +42,7 @@ function mouseUpdate(e){
 	my=(ch/2-e.offsetY)/scale;	
 	document.getElementById("xdisplay").innerHTML=(mx.toFixed(2));
 	document.getElementById("ydisplay").innerHTML=(my.toFixed(2));
-	if(clear){clearCanvas()}
+	if(document.getElementById("clearcheck").checked){clearCanvas()}
 	if(document.getElementById("eulercheck").checked){
 	graph(mx,my)}
 	if(document.getElementById("rk4check").checked){
@@ -153,5 +152,5 @@ font-size:10pt;
 </tr>
 </table>
 <canvas height="600" width="1000" id="can0" onclick="clearCanvas()" onmouseout="mouseClear()"></canvas><br>
-Clear Canvas<input type="checkbox" checked="true" onchange="clear=this.checked"></input>
+Clear Canvas<input id="clearcheck" type="checkbox" checked="true"></input>
 </body></html>
